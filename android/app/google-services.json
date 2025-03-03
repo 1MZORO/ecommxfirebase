@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "270179788986",
+    "project_id": "ecomxfirebase0",
+    "storage_bucket": "ecomxfirebase0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270179788986:android:aa2d0106f0d26f1e7fba83",
+        "android_client_info": {
+          "package_name": "com.example.ecomxfirebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhnz_f4Mq5HIxiQVaZYj7WC6i2-OVmQ9Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
