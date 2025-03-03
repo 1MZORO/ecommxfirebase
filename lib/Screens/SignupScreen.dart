@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import '../Services/AuthServices.dart';
 import '../Utils/CustomTF.dart';
 import 'LoginScreen.dart';
 
@@ -31,7 +34,7 @@ class _SignupScreenState extends State<SignupScreen> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
             child: Column(
               children: [
                 Padding(
@@ -76,14 +79,15 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(
                   height: size.height * .01,
                 ),
-                CustomTF(
-                  clt: _usernameClt,
-                  txt: "username",
-                  obscureText: false,
-                ),
-                SizedBox(
-                  height: size.height * .01,
-                ),
+                // CustomTF(
+                //   clt: _usernameClt,
+                //   txt: "phone no",
+                //   obscureText: false,
+                //   keyboardType: TextInputType.number,
+                // ),
+                // SizedBox(
+                //   height: size.height * .01,
+                // ),
                 CustomTF(
                   clt: _emailClt,
                   txt: "email",
@@ -101,7 +105,14 @@ class _SignupScreenState extends State<SignupScreen> {
                   height: size.height * .03,
                 ),
                 ElevatedButton(
-                    onPressed: () async{},
+                    onPressed: () async{
+                      final authService = AuthService();
+                      final res = await authService.signUpWthEmail(_emailClt.text, _passClt.text);
+                      _emailClt.clear();
+                      _passClt.clear();
+                      _fullnameClt.clear();
+                      log(res.toString());
+                    },
                     child: Text("Continue")),
                 SizedBox(
                   height: size.height * .01,
