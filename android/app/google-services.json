@@ -12,7 +12,20 @@
           "package_name": "com.example.ecomxfirebase"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "270179788986-m7tg20euc65kuaidrr87vdrekgbgl0v1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ecomxfirebase",
+            "certificate_hash": "389fdb88f18823c604583f3e49f194edc328883a"
+          }
+        },
+        {
+          "client_id": "270179788986-tj22n09eodhgnm4928fh2gr8moe5omgf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBhnz_f4Mq5HIxiQVaZYj7WC6i2-OVmQ9Y"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270179788986-tj22n09eodhgnm4928fh2gr8moe5omgf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
