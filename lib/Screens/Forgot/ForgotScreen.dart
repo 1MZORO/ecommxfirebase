@@ -1,6 +1,8 @@
+import 'package:ecomxfirebase/Screens/LoginScreen.dart';
+import 'package:ecomxfirebase/Services/AuthServices.dart';
+import 'package:ecomxfirebase/Utils/ShowSnackBar.dart';
 import 'package:flutter/material.dart';
 import '../../Utils/CustomTF.dart';
-import '../../Utils/ShowSnackBar.dart';
 
 class ForgotScreen extends StatelessWidget {
    ForgotScreen({super.key});
@@ -22,7 +24,7 @@ class ForgotScreen extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.pop(context);
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>LoginScreen()));
                         },
                         child: Container(
                           height: 40,
@@ -58,7 +60,15 @@ class ForgotScreen extends StatelessWidget {
                   height: size.height * .02,
                 ),
                 ElevatedButton(onPressed: ()async{
-
+                  final authService = AuthService();
+                  authService.forgotPassword(_emailClt.text).then((value){
+                    if(value){
+                      showSnackBar(context, 'Reset Password Successfully Check Email');
+                      Navigator.pop(context);
+                    }else{
+                      showSnackBar(context, 'Invalid Email or User');
+                    }
+                  });
                 }, child: Text('Continue'))
               ]
               )

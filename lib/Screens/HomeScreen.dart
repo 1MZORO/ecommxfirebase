@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -5,6 +6,10 @@ class HomeScreen extends StatefulWidget {
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
+}
+
+String? checkUser(){
+  return FirebaseAuth.instance.currentUser?.email;
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -23,21 +28,17 @@ class _HomeScreenState extends State<HomeScreen> {
     {"image": "assets/img/jacket.png", "price": "\$120.00"},
   ];
 
+  final user = checkUser();
+
   @override
   Widget build(BuildContext context) {
     final TextEditingController searchClt = TextEditingController();
-    // final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-          padding: const EdgeInsets.only(top: 20, left: 5),
-          child: Container(
-              height: 43,
-              width: 43,
-              decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(30)),
-              child: Icon(Icons.person)),
+          padding: const EdgeInsets.only(top: 10, left: 10),
+          child: Icon(Icons.menu),
         ),
         actions: [
           Padding(
@@ -70,6 +71,36 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide.none,
                   ),
+                ),
+              ),
+              SizedBox(height: 10,),
+              SizedBox(
+                height: 150,
+                child: CarouselView(
+                  itemExtent: size.width - 32,
+                  padding: EdgeInsets.zero,
+                  children: List.generate(6, (int index) {
+                    String? url = 'https://picsum.photos/700?random=$index';
+                    return GestureDetector(
+                      onTap: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (_) => DetailScreen(url: url),
+                        //   ),
+                        // );
+                      },
+                      child: Image.network(
+                         url,
+                        fit: BoxFit.cover,
+                        // placeholder: (context, url) => const Center(
+                        //   child: CircularProgressIndicator(),
+                        // ),
+                        // errorWidget: (context, url, error) =>
+                        // const Center(child: Icon(Icons.broken_image, size: 50)),
+                      ),
+                    );
+                  }),
                 ),
               ),
               SizedBox(height: 10,),
@@ -111,12 +142,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
+              // Image.network('https://res.cloudinary.com/zoro1/image/upload/v1741098898/ohrbcsckhygige08rrqg.jpg'),
+
               SizedBox(height: 20),
 
 
               GridView.builder(
                 shrinkWrap: true,
-                //physics: NeverScrollableScrollPhysics(),
+                physics: NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 15,
@@ -137,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(15),
-                              child: Image.asset(topSelling[index]['image']!, height: 140, width: double.infinity, fit: BoxFit.cover),
+                              child: Image.asset(topSelling[index]['image']!, height: 170, width: double.infinity, fit: BoxFit.fill),
                             ),
                             Positioned(
                               top: 10,
@@ -146,6 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
+                        // SizedBox(height: 30,),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(

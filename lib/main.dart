@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'Provider_Global/BottomProvider.dart';
+import 'Provider_Global/GlobalProvider.dart';
 import 'Services/AuthGate.dart';
 
 void main() async {
@@ -22,6 +23,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => BottomProvider()),
+        ChangeNotifierProvider(create: (context) => GlobalProvider())
       ],
       child: MyApp(),
     ),

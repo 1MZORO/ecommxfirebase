@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import '../Services/AuthServices.dart';
 import '../Utils/CustomTF.dart';
@@ -37,30 +36,31 @@ class _SignupScreenState extends State<SignupScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: Colors.grey.shade200),
-                          child: Icon(
-                            Icons.arrow_back_ios_rounded,
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                SizedBox(height: 70,),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 10, bottom: 20),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.start,
+                //     children: [
+                //       GestureDetector(
+                //         onTap: () {
+                //           Navigator.pop(context);
+                //         },
+                //         child: Container(
+                //           height: 40,
+                //           width: 40,
+                //           decoration: BoxDecoration(
+                //               borderRadius: BorderRadius.circular(50),
+                //               color: Colors.grey.shade200),
+                //           child: Icon(
+                //             Icons.arrow_back_ios_rounded,
+                //             color: Colors.black87,
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Row(
@@ -71,6 +71,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     ],
                   ),
                 ),
+                SizedBox(height: 20,),
+
                 CustomTF(
                   clt: _fullnameClt,
                   txt: "full name",
@@ -107,7 +109,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ElevatedButton(
                     onPressed: () async{
                       final authService = AuthService();
-                      final res = await authService.signUpWthEmail(_emailClt.text, _passClt.text);
+                      final res = await authService.signUpWthEmail(_emailClt.text, _passClt.text,context);
                       _emailClt.clear();
                       _passClt.clear();
                       _fullnameClt.clear();
@@ -115,16 +117,18 @@ class _SignupScreenState extends State<SignupScreen> {
                     },
                     child: Text("Continue")),
                 SizedBox(
-                  height: size.height * .01,
+                  height: size.height * .02,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text("Already have account "),
+                    Text("Already have account? "),
                     GestureDetector(
                         onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) => LoginScreen()));
+                          setState(() {
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (context) => LoginScreen()));
+                          });
                         },
                         child: Text(
                           "Login",

@@ -1,6 +1,6 @@
 import 'dart:developer';
-
 import 'package:ecomxfirebase/Services/AuthServices.dart';
+import 'package:ecomxfirebase/Utils/ShowSnackBar.dart';
 import 'package:flutter/material.dart';
 import '../Utils/CustomTF.dart';
 import 'Forgot/ForgotScreen.dart';
@@ -17,7 +17,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailClt = TextEditingController();
   final TextEditingController _passClt = TextEditingController();
-
+  final authService = AuthService();
 
   @override
   void dispose() {
@@ -69,9 +69,21 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               ElevatedButton(
                 onPressed: () async{
-                  final authService = AuthService();
-                  final res = await authService.signInWthEmail(_emailClt.text, _passClt.text);
-                  log(res.toString());
+                  try{
+                    if(_emailClt.text.toString() == "admin@gmail.com"){
+                      await authService.signInWthEmailAsAdmin(_emailClt.text, _passClt.text).then((value){
+                        log("Admin Login");
+                        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>HomeScreen()));
+                      });
+                    }else{
+                      await authService.signInWthEmail(_emailClt.text, _passClt.text);
+                      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>HomeScreen()));/
+                    }
+                  }catch(e){
+                    log(e.toString());
+                    showSnackBar(context, "Error while login");
+                  }
+
                 },
                 child: Text("Continue"),
               ),
@@ -82,17 +94,29 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text("Don't have account? "),
+                  // SizedBox(height: 10,),
                   GestureDetector(
                       onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => SignupScreen()));
+                        setState(() {
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) => SignupScreen()));
+                        });
                       },
                       child: Text(
                         "Create one",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ))
                 ],
-              )
+              ),
+              // Row(
+              //   children: [
+              //     IconButton(onPressed: () {
+              //       final res = authService.signInWithGoogle();
+              //       log('$res created');
+              //     },
+              //     icon: Icon(Icons.login))
+              //   ],
+              // )
             ],
           ),
         ),

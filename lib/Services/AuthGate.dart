@@ -1,7 +1,7 @@
+import 'package:ecomxfirebase/Screens/LoginScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../Screens/BottomTabs.dart';
-import '../Screens/LoginScreen.dart';
 
 
 class AuthGate extends StatelessWidget {

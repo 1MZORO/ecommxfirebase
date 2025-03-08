@@ -1,4 +1,5 @@
 import 'package:ecomxfirebase/Screens/Forms/AddressScreen.dart';
+import 'package:ecomxfirebase/Screens/Forms/ProductScreen.dart';
 import 'package:ecomxfirebase/Screens/Forms/UserInfoScreen.dart';
 import 'package:flutter/material.dart';
 import '../Services/AuthServices.dart';
@@ -11,22 +12,24 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final user = AuthService().getCurrentUser();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(onPressed: () async {
-            final authService = AuthService();
-             await authService.logout();
-          }, icon: Icon(Icons.logout_rounded))
-        ],
-      ),
+      // appBar: AppBar(
+      //   actions: [
+      //     IconButton(onPressed: () async {
+      //       final authService = AuthService();
+      //        await authService.logout();
+      //     }, icon: Icon(Icons.logout_rounded))
+      //   ],
+      // ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           children: [
+            SizedBox(height: 50,),
             CircleAvatar(
               radius: 50,
               backgroundColor: Colors.grey.shade200,
@@ -44,6 +47,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                   _widget(size, 'Address', (){
                     Navigator.push(context, MaterialPageRoute(builder: (_)=>AddressScreen()));
+                  }),
+
+                  SizedBox(height: 20,),
+
+                   if(user?.email == "admin@gmail.com")
+                     _widget(size, 'Add Product', (){
+                    Navigator.push(context, MaterialPageRoute(builder: (_)=>CreateProductScreen()));
                   }),
 
                   SizedBox(height: 20,),
