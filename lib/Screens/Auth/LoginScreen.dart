@@ -2,10 +2,9 @@ import 'dart:developer';
 import 'package:ecomxfirebase/Services/AuthServices.dart';
 import 'package:ecomxfirebase/Utils/ShowSnackBar.dart';
 import 'package:flutter/material.dart';
-import '../Utils/CustomTF.dart';
-import 'Forgot/ForgotScreen.dart';
+import '../../Utils/CustomTF.dart';
+import 'ForgotScreen.dart';
 import 'SignupScreen.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -26,6 +25,10 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  void clean(){
+    _emailClt.clear();
+    _passClt.clear();
+  }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -73,11 +76,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     if(_emailClt.text.toString() == "admin@gmail.com"){
                       await authService.signInWthEmailAsAdmin(_emailClt.text, _passClt.text).then((value){
                         log("Admin Login");
-                        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>HomeScreen()));
+                        clean();
                       });
                     }else{
-                      await authService.signInWthEmail(_emailClt.text, _passClt.text);
-                      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>HomeScreen()));/
+                      await authService.signInWthEmail(_emailClt.text, _passClt.text).then((value){
+                        showSnackBar(context, 'Login Successfully');
+                          clean();
+                      });
                     }
                   }catch(e){
                     log(e.toString());
@@ -98,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   GestureDetector(
                       onTap: () {
                         setState(() {
-                          Navigator.pushReplacement(context,
+                          Navigator.push(context,
                               MaterialPageRoute(builder: (context) => SignupScreen()));
                         });
                       },

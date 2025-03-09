@@ -16,7 +16,9 @@ class AuthService {
 
   Future<bool> signInWthEmail(String email, password) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      UserCredential? userCredential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      log(userCredential.toString());
+      await userCredential.user?.reload();
       return true;
     } on FirebaseAuthException catch (e) {
       log('Error while login $e');
@@ -77,8 +79,14 @@ class AuthService {
       }
     }
 
-    Future<void> logout() async {
-      return await _auth.signOut();
+    Future<bool> logout() async {
+      try{
+        await _auth.signOut();
+        return true;
+      }catch (e){
+        log(e.toString());
+        return false;
+      }
     }
 
     Future<bool> forgotPassword(String email) async {

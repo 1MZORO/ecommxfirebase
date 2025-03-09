@@ -66,7 +66,7 @@ class UserInfoScreen extends StatelessWidget {
               SizedBox(height: 20,),
               ElevatedButton(onPressed: (){
                 UserServices userServices = UserServices();
-                userServices.addUserDetails(_fullNameClt.text, _emailClt.text, _phone.text, _dob.text, _gender.text);
+                // userServices.addUserDetails(_fullNameClt.text, _emailClt.text, _phone.text, _dob.text, _gender.text);
               }, child: Text('Save'))
             ],
           ),

@@ -1,7 +1,8 @@
-import 'package:ecomxfirebase/Screens/LoginScreen.dart';
+import 'dart:developer';
+import 'package:ecomxfirebase/Screens/Auth/SignupScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../Screens/BottomTabs.dart';
+import '../Screens/MainScreen/BottomTabs.dart';
 
 
 class AuthGate extends StatelessWidget {
@@ -15,9 +16,10 @@ class AuthGate extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasData) {
+          log('Stream Called ${snapshot.data?.email}');
           return BottomNavTabs(); // User is logged in
         } else {
-          return LoginScreen(); // User is not logged in
+          return SignupScreen(); // User is not logged in
         }
       },
     );

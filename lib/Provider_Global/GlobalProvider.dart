@@ -5,9 +5,11 @@ class GlobalProvider extends ChangeNotifier{
 
   List<File> _images = [];
   dynamic _value ;
+  DateTime? _selectedDate;
 
   List<File> get images => _images ;
   dynamic get value => _value;
+  DateTime? get selectedDate => _selectedDate;
 
   void setImages(List<File> images){
       _images = images;
@@ -16,6 +18,11 @@ class GlobalProvider extends ChangeNotifier{
 
   void setValue(dynamic value){
     _value = value;
+    notifyListeners();
+  }
+
+  void setDate(DateTime? selectedDate){
+    _selectedDate = selectedDate;
     notifyListeners();
   }
 

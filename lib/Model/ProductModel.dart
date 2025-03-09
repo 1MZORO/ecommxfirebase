@@ -5,6 +5,7 @@ class ProductModel {
   final String name;
   final String description;
   final String price;
+  final String brand;
   final List<String> imageUrls;
   final String category;
   final Timestamp? createdAt;
@@ -14,6 +15,7 @@ class ProductModel {
     required this.name,
     required this.description,
     required this.price,
+    required this.brand,
     required this.imageUrls,
     required this.category,
     this.createdAt,
@@ -30,6 +32,7 @@ class ProductModel {
       imageUrls: List<String>.from(data['imageUrls'] ?? []),
       category: data['category'] ?? '',
       createdAt: data['createdAt'] ?? Timestamp.now(),
+      brand: data['brand'],
     );
   }
 
@@ -41,6 +44,7 @@ class ProductModel {
       "price": price,
       "imageUrls": imageUrls,
       "category": category,
+      "brand": brand,
       "createdAt": createdAt,
     };
   }

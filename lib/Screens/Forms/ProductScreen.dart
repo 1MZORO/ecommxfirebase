@@ -92,7 +92,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
               SizedBox(height: 10),
               _buildTextField(_brandClt, 'Brand Name'),
               SizedBox(height: 10),
-              DropDown(items: ['Shoes','Hoodies']),
+              DropDown(items: ['Shoes','Hoodies'], text: 'Select Category',),
               SizedBox(height: 20),
               ElevatedButton.icon(
                 icon: Icon(Icons.image),
@@ -130,7 +130,8 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
                               price: _priceClt.text,
                               imageUrls: urls,
                               createdAt: Timestamp.now(),
-                              category: _brandClt.text);
+                              brand: _brandClt.text,
+                              category: provider.value);
                           productService.addProduct(productModel).then((value){
                             if(value){
                                 clean();
