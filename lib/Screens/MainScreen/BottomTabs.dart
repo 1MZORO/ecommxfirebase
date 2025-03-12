@@ -7,7 +7,6 @@ import 'NotificationScreen.dart';
 import 'OrderScreen.dart';
 import 'ProfileScreen.dart';
 
-
 class BottomNavTabs extends StatefulWidget {
   const BottomNavTabs({super.key});
 
@@ -20,7 +19,7 @@ class _BottomNavTabsState extends State<BottomNavTabs> {
     HomeScreen(),
     NotificationScreen(),
     OrderScreen(),
-    ProfileScreen()
+    ProfileScreen(),
   ];
 
   @override
@@ -29,57 +28,58 @@ class _BottomNavTabsState extends State<BottomNavTabs> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: _screens[bottomNavProvider.currentIndex],
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: _screens[bottomNavProvider.currentIndex],
+      ),
       bottomNavigationBar: Container(
-        height: size.height*.1,
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        height: size.height * 0.08, // Fixed height for consistency
         decoration: BoxDecoration(
-          color: Colors.white70,
+          color: Colors.white,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
           boxShadow: [
             BoxShadow(
-              color: Colors.white70,
-              blurRadius: 5,
-              spreadRadius: 3,
+              color: Colors.grey.withOpacity(0.2),
+              blurRadius: 10,
+              spreadRadius: 1,
             ),
           ],
         ),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: GNav(
-            backgroundColor: Colors.white,
-            color: Colors.grey,
-            activeColor: Theme.of(context).primaryColor,
-            tabBackgroundColor: Colors.white.withOpacity(0.1),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            gap: 8, 
-            onTabChange: (index) => bottomNavProvider.changeTab(index),
-            tabs: [
-              GButton(
-                icon: Icons.home,
-                text: 'Home',
-                iconColor: bottomNavProvider.currentIndex == 0 ? Theme.of(context).primaryColor : Colors.grey,
-              ),
-              GButton(
-                icon: Icons.notifications,
-                text: 'Notifications',
-                iconColor: bottomNavProvider.currentIndex == 1 ? Theme.of(context).primaryColor : Colors.grey,
-              ),
-              GButton(
-                icon: Icons.shopping_cart,
-                text: 'Orders',
-                iconColor: bottomNavProvider.currentIndex == 2 ? Theme.of(context).primaryColor : Colors.grey,
-              ),
-              GButton(
-                icon: Icons.person,
-                text: 'Profile',
-                iconColor: bottomNavProvider.currentIndex == 3 ? Theme.of(context).primaryColor : Colors.grey,
-              ),
-            ],
+        child: GNav(
+          backgroundColor: Colors.transparent,
+          color: Colors.grey,
+          activeColor: Theme.of(context).primaryColor,
+          tabBackgroundColor: Colors.blue.withOpacity(0.1),
+          padding: EdgeInsets.symmetric(
+            horizontal: size.width * 0.05, // Adjusted for better spacing
+            vertical: 10, // Fixed vertical padding
           ),
+          gap: 8,
+          onTabChange: (index) => bottomNavProvider.changeTab(index),
+          tabs: [
+            GButton(
+              icon: Icons.home,
+              text: 'Home',
+              iconColor: bottomNavProvider.currentIndex == 0 ? Theme.of(context).primaryColor : Colors.grey,
+            ),
+            GButton(
+              icon: Icons.notifications,
+              text: 'Notifications',
+              iconColor: bottomNavProvider.currentIndex == 1 ? Theme.of(context).primaryColor : Colors.grey,
+            ),
+            GButton(
+              icon: Icons.shopping_cart,
+              text: 'Orders',
+              iconColor: bottomNavProvider.currentIndex == 2 ? Theme.of(context).primaryColor : Colors.grey,
+            ),
+            GButton(
+              icon: Icons.person,
+              text: 'Profile',
+              iconColor: bottomNavProvider.currentIndex == 3 ? Theme.of(context).primaryColor : Colors.grey,
+            ),
+          ],
         ),
       ),
     );
   }
 }
-
-// Image.asset('assets/icons/home.png',height: 30,width: 30,

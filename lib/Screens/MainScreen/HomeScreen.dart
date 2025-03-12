@@ -1,5 +1,7 @@
+import 'package:ecomxfirebase/Provider_Global/UserDataProvider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,13 +29,16 @@ class _HomeScreenState extends State<HomeScreen> {
     {"image": "assets/img/jacket.png", "price": "\$60.00"},
     {"image": "assets/img/jacket.png", "price": "\$120.00"},
   ];
-
+  late final userId ;
   final user = checkUser();
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<UserDataProvider>(context);
     final TextEditingController searchClt = TextEditingController();
     final size = MediaQuery.of(context).size;
+
+
     return Scaffold(
       appBar: AppBar(
         title: Padding(
@@ -118,6 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   scrollDirection: Axis.horizontal,
                   itemCount: categories.length,
                   itemBuilder: (context, index) {
+                    // log(provider.userData.toString());
                     return Padding(
                       padding: const EdgeInsets.only(right: 15),
                       child: Column(
@@ -146,56 +152,60 @@ class _HomeScreenState extends State<HomeScreen> {
 
               SizedBox(height: 20),
 
+              _showProducts()
 
-              GridView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 15,
-                  childAspectRatio: 0.7,
-                ),
-                itemCount: topSelling.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: Image.asset(topSelling[index]['image']!, height: 170, width: double.infinity, fit: BoxFit.fill),
-                            ),
-                            Positioned(
-                              top: 10,
-                              right: 10,
-                              child: Icon(Icons.favorite_border, color: Colors.black),
-                            ),
-                          ],
-                        ),
-                        // SizedBox(height: 30,),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            topSelling[index]['price']!,
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
             ],
           ),
         ),
       ),
+    );
+  }
+  Widget _showProducts(){
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 15,
+        mainAxisSpacing: 15,
+        childAspectRatio: 0.7,
+      ),
+      itemCount: topSelling.length,
+      itemBuilder: (context, index) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.grey.shade100,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Image.asset(topSelling[index]['image']!, height: 170, width: double.infinity, fit: BoxFit.fill),
+                  ),
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: Icon(Icons.favorite_border, color: Colors.black),
+                  ),
+                ],
+              ),
+              // SizedBox(height: 30,),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  topSelling[index]['price']!,
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+              ),
+
+            ],
+          ),
+        );
+      },
     );
   }
 }

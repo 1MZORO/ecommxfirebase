@@ -1,0 +1,20 @@
+                        -H/home/zoro/development/flutter/packages/flutter_tools/gradle/src/main/groovy
+-DCMAKE_SYSTEM_NAME=Android
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+-DCMAKE_SYSTEM_VERSION=23
+-DANDROID_PLATFORM=android-23
+-DANDROID_ABI=x86_64
+-DCMAKE_ANDROID_ARCH_ABI=x86_64
+-DANDROID_NDK=/home/zoro/Android/Sdk/ndk/26.3.11579264
+-DCMAKE_ANDROID_NDK=/home/zoro/Android/Sdk/ndk/26.3.11579264
+-DCMAKE_TOOLCHAIN_FILE=/home/zoro/Android/Sdk/ndk/26.3.11579264/build/cmake/android.toolchain.cmake
+-DCMAKE_MAKE_PROGRAM=/home/zoro/Android/Sdk/cmake/3.22.1/bin/ninja
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/home/zoro/StudioProjects/ecommxfirebase/build/app/intermediates/cxx/Debug/4y395kml/obj/x86_64
+-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=/home/zoro/StudioProjects/ecommxfirebase/build/app/intermediates/cxx/Debug/4y395kml/obj/x86_64
+-DCMAKE_BUILD_TYPE=Debug
+-B/home/zoro/StudioProjects/ecommxfirebase/android/app/.cxx/Debug/4y395kml/x86_64
+-GNinja
+-Wno-dev
+--no-warn-unused-cli
+                        Build command args: []
+                        Version: 2

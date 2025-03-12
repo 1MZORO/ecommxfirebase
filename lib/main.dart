@@ -1,3 +1,4 @@
+import 'package:ecomxfirebase/Provider_Global/UserDataProvider.dart';
 import 'package:ecomxfirebase/Services/AuthGate.dart';
 import 'package:ecomxfirebase/Utils/ThemeDataClass.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,7 +17,8 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => BottomProvider()),
-        ChangeNotifierProvider(create: (context) => GlobalProvider())
+        ChangeNotifierProvider(create: (context) => GlobalProvider()),
+        ChangeNotifierProvider(create: (context) => UserDataProvider()),
       ],
       child: MyApp(),
     ),

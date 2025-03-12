@@ -50,6 +50,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
       _priceClt.clear();
       _descriptionClt.clear();
       provider.clearImages();
+      provider.clearValue();
     }
     
     Widget _buildTextField(TextEditingController controller, String hint,
@@ -77,75 +78,121 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Add Product')),
+      // appBar: AppBar(title: Text('Add Product')),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              _buildTextField(_nameClt, 'Product Name'),
-              SizedBox(height: 10),
-              _buildTextField(_descriptionClt, 'Description'),
-              SizedBox(height: 10),
-              _buildTextField(_priceClt, 'Price in RS',type: TextInputType.number),
-              SizedBox(height: 10),
-              _buildTextField(_brandClt, 'Brand Name'),
-              SizedBox(height: 10),
-              DropDown(items: ['Shoes','Hoodies'], text: 'Select Category',),
-              SizedBox(height: 20),
-              ElevatedButton.icon(
-                icon: Icon(Icons.image),
-                label: Text('Pick Images'),
-                onPressed: _pickImages,
-              ),
-              provider.images.isNotEmpty
-                  ? Wrap(
-                      children: provider.images.map((img) {
-                        return Padding(
-                          padding: EdgeInsets.all(4),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.file(img,
-                                width: 80, height: 80, fit: BoxFit.cover),
-                          ),
-                        );
-                      }).toList(),
-                    )
-                  : Text('No images selected'),
-              SizedBox(height: 20),
-              _isLoading
-                  ? CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: () async {
-                        final cloudinary = Cloudinary();
-                        final productService = ProductService();
-                        List<String> urls =
-                            await cloudinary.uploadImages(provider.images);
-
-                        if (urls.isNotEmpty) {
-                          final productModel = ProductModel(
-                              name: _nameClt.text,
-                              description: _descriptionClt.text,
-                              price: _priceClt.text,
-                              imageUrls: urls,
-                              createdAt: Timestamp.now(),
-                              brand: _brandClt.text,
-                              category: provider.value);
-                          productService.addProduct(productModel).then((value){
-                            if(value){
-                                clean();
-                                showSnackBar(context, 'Product Added Successfully');
-                            }else{
-                              showSnackBar(context, 'Failed while creating Product');
-                            }
-                          });
-                        }
-                      },
-                      child: Text('Upload Product'),
+        child: Column(
+          children: [
+          SizedBox(height: 30,),
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.grey.shade200),
+                    child: Icon(
+                      Icons.arrow_back_ios_rounded,
+                      color: Colors.black87,
                     ),
-            ],
+                  ),
+                ),
+              ],
+            ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text('Add Products',
+                    style: Theme.of(context).textTheme.headlineLarge),
+              ],
+            ),
+          ),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  _buildTextField(_nameClt, 'Product Name'),
+                  SizedBox(height: 10),
+                  _buildTextField(_descriptionClt, 'Description'),
+                  SizedBox(height: 10),
+                  _buildTextField(_priceClt, 'Price in RS',type: TextInputType.number),
+                  SizedBox(height: 10),
+                  _buildTextField(_brandClt, 'Brand Name'),
+                  SizedBox(height: 10),
+                  DropDown(items: ['Shoes','Hoodies'], text: 'Select Category',),
+                  SizedBox(height: 20),
+                  ElevatedButton.icon(
+                    icon: Icon(Icons.image),
+                    label: Text('Pick Images'),
+                    onPressed: _pickImages,
+                  ),
+                  provider.images.isNotEmpty
+                      ? Wrap(
+                          children: provider.images.map((img) {
+                            return Padding(
+                              padding: EdgeInsets.all(4),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.file(img,
+                                    width: 80, height: 80, fit: BoxFit.cover),
+                              ),
+                            );
+                          }).toList(),
+                        )
+                      : Text('No images selected'),
+                  SizedBox(height: 20),
+                  provider.validate
+                      ? CircularProgressIndicator()
+                      : ElevatedButton(
+                          onPressed: () async {
+                            if(provider.images.isNotEmpty && _nameClt.text.isNotEmpty && _brandClt.text.isNotEmpty && _descriptionClt.text.isNotEmpty && _priceClt.text.isNotEmpty && provider.value.toString().isNotEmpty){
+                              provider.setValidate(true);
+                              final cloudinary = Cloudinary();
+                              final productService = ProductService();
+                              List<String> urls =
+                              await cloudinary.uploadImages(provider.images);
+
+                              if (urls.isNotEmpty) {
+                                final productModel = ProductModel(
+                                    name: _nameClt.text,
+                                    description: _descriptionClt.text,
+                                    price: _priceClt.text,
+                                    imageUrls: urls,
+                                    createdAt: Timestamp.now(),
+                                    brand: _brandClt.text,
+                                    category: provider.value);
+                                productService.addProduct(productModel).then((value){
+                                  if(value){
+                                    provider.setValidate(false);
+                                    clean();
+                                    showSnackBar(context, 'Product Added Successfully');
+                                  }else{
+                                    provider.setValidate(false);
+                                    showSnackBar(context, 'Failed while creating Product');
+                                  }
+                                });
+                              }
+                            }else{
+                              showSnackBar(context, 'Add all Fields First');
+                            }
+                          },
+                          child: Text('Upload Product'),
+                        ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
